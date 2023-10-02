@@ -1,0 +1,184 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: Two-Sample (Independent) t-Test
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: University of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: In this lesson, we will learn how to compute a two-sample t-test. This
+    test is also called an independent t-test. This analysis allows us to compare
+    the means for two groups. 
+    
+- Class: text
+  Output: For example, let's say you are an ice cream company, and you have
+    created two recipes for your cookie dough ice cream. If you wanted to compare
+    which flavors your customer would prefer, you could have 50 people sample
+    the first recipe, 50 sample the second recipe, then have all 100 people 
+    rate how much they liked the ice cream. Then, using a two-sample t-test,
+    you can compare if there was a significant difference in how much
+    participants enjoyed the two recipes.
+    
+- Class: text
+  Output: For this lesson, we're going to be using the same data from the one-sample
+    t-test lesson, although to avoid confusion, I have renamed it twosampdata.
+    
+- Class: text
+  Output: Recall that this data is a set of computer generated ratings of a new brand of headphones, 
+    and it has four variables - product color, sound qualtity, battery life,
+    and overall rating. 
+    
+    
+    ProductColor is the color of the headphones, and the
+    value is either red or blue.
+    
+    
+    SoundQual is a rating of the headphones' sound quality using a scale
+    from 1 to 7, with 1 being the lowest rating, and 7 being the highest. 
+    
+    
+    BatteryLife is a rating of the headphones' battery life, and is also on a 
+    1 to 7 scale, with 1 being the lowest rating, and 7 being the highest. 
+    
+    
+    AverageRating is the consumer's overall rating of the product on a scale
+    from 1 (terrible product) to 10 (great product). 
+
+- Class: text
+  Output: Using a two-sample t-test, we can see if participants' ratings of 
+    the headphones' sound quality, battery life, or their overall evaluations 
+    differ based on the color of the headphone. 
+
+- Class: text
+  Output: Assume that you want to know whether participants' ratings of the
+    sound quality of the headphones differ based on whether the headphones
+    are red or blue. For a two sample t-test, the basic code is 
+    t.test(y~x, na.rm=TRUE), where y is your independent variable and
+    x is your independent variable. na.rm=TRUE tells R that you want to 
+    remove observations with missing data. We don't have missing data in our 
+    current set, but we'll want to leave the code in for your future reference.
+    
+    
+    In R, any time we use a multivariate model, we use the ~ sign to distinguish
+    between the independent and dependent variables. 
+    
+    In this case, the color of the headphones is our independent variable,
+    and the sound quality is our dependent variable. 
+
+- Class: text
+  Output: So, for example if I wanted to know whether participants' rating of
+    sound quality differed based on the color of the headphone, I would use the 
+    following code:= 
+    
+    t.test(twosampdata$SoundQual~twosampdata$ProductColor, na.rm=TRUE).
+    
+    Just like previous lessons, twosampdata is telling R which dataset we're
+    using. $SoundQual is telling R that Sound Quality is our dependent
+    variable. $ProductColor is tell R that Product Color is the independent
+    variable. 
+
+- Class: cmd_question
+  Output: Okay, now let's run the code. Try typing 
+    t.test(twosampdata$SoundQual~twosampdata$ProductColor, na.rm=TRUE)
+  CorrectAnswer:   t.test(twosampdata$SoundQual~twosampdata$ProductColor, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='  t.test(twosampdata$SoundQual~twosampdata$ProductColor, na.rm=TRUE)')
+  Hint: Just type '  t.test(twosampdata$SoundQual~twosampdata$ProductColor, na.rm=TRUE)' without the quotes!
+
+- Class: text
+  Output: let's unpack the results! The t-statisic is again, what we have calulated
+    by hand in class. However, this time, the p-value is not telling you if 
+    the mean of SoundQual differs significantly from the mu (or scale midpoint).
+    
+- Class: text
+  Output: in a two-sample t-test, we are comparing two groups against each other.
+    so in this case, we're looking at the mean of sound quality for the Blue
+    headphones, and comparing them to the mean of the sound quality for the
+    Red headphones. 
+    
+- Class: text
+  Output: Here, the p-value is 5.9681-05. Don't get confused here--if you think
+    way back to high school, you might remember that e to a negative number moves
+    the decimal place left. That means the value is actually .000059681.
+    Therefore, is IS smaller than .05. 
+
+
+- Class: mult_question
+  Output: Based on this p-value, is there a significant difference between the 
+    two colors with respect to their sound quality?
+  AnswerChoices: Yes;No
+  CorrectAnswer: Yes
+  AnswerTests: omnitest(correctVal='Yes')
+  Hint: If the p-value is smaller than .05, then we there is a significant
+    difference. 
+  
+- Class: mult_question
+  Output: Based on this p-value, to we reject the null, or fail to reject the null?
+  AnswerChoices: Reject the null; Fail to reject
+  CorrectAnswer: Reject the null
+  AnswerTests: omnitest(correctVal='Reject the null')
+  Hint: If we the two groups significantly differ, we can reject the null. 
+
+- Class: text
+  Output: Now, just like with the one-sample t-test, this code does not 
+    provide us with the standard deviations. However, we can't use the same
+    code as we did for the one sample t-test, because it wouldn't break the 
+    standard deviation out by group, which we need. That is, we want the
+    standard deviation for red headphones and the standard deviation for 
+    blue headphones. 
+    
+- Class: cmd_question
+  Output: To find the standard deviation for two groups, we can use the code
+    tapply(twosampdata$SoundQual, twosampdata$ProductColor,sd, na.rm=TRUE). 
+    
+    tapply() is a function specifically designed to report statistics for more than
+    one group in a sample. First, we need to provide the variable we're interested
+    in (sound quality), then what your grouping variable is (ProductColor). tapply
+    does more than just standard deviations, so you need to tell it that you're
+    interested in the standard deviation by typing 'sd'. na.rm=TRUE again removes
+    any missing data. 
+    
+    
+    Go ahead, type 
+    tapply(twosampdata$SoundQual, twosampdata$ProductColor,sd, na.rm=TRUE)
+    and find the sd for each group!
+  CorrectAnswer:   tapply(twosampdata$SoundQual, twosampdata$ProductColor,sd, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='  tapply(twosampdata$SoundQual, twosampdata$ProductColor,sd, na.rm=TRUE)')
+  Hint: Just type ' tapply(twosampdata$SoundQual, twosampdata$ProductColor,sd, na.rm=TRUE)' without the quotes!
+
+- Class: cmd_question
+  Output: Okay, time for you to try. Run a t-test to see if BatteryLife differs 
+    between the two colors of headphones. 
+  CorrectAnswer:   t.test(twosampdata$BatteryLife~twosampdata$ProductColor, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr=' t.test(twosampdata$BatteryLife~twosampdata$ProductColor, na.rm=TRUE)')
+  Hint: Just type ' t.test(twosampdata$BatteryLife~twosampdata$ProductColor, na.rm=TRUE)' without the quotes!
+  
+- Class: mult_question
+  Output: Based on this p-value, is there a significant difference between the 
+    two colors with respect to their Battery Life?
+  AnswerChoices: Yes;No
+  CorrectAnswer: No
+  AnswerTests: omnitest(correctVal='No')
+  Hint: If the p-value is greater than .05, then there is a not significant
+    difference. 
+
+- Class: mult_question
+  Output: What is the mean rating of BatteryLife for red headphones?
+  AnswerChoices: 3.63;3.93
+  CorrectAnswer: 3.93
+  AnswerTests: omnitest(correctVal='3.93')
+  Hint: If look for the number beneath the words 'mean in group Red'
+
+- Class: cmd_question
+  Output: Now calculate the standard deviation for ratings of BatteryLife for each group.
+  CorrectAnswer:   tapply(twosampdata$BatteryLife, twosampdata$ProductColor,sd, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='  tapply(twosampdata$BatteryLife, twosampdata$ProductColor,sd, na.rm=TRUE)')
+  Hint: Just type ' tapply(twosampdata$BatteryLife, twosampdata$ProductColor,sd, na.rm=TRUE)' without the quotes!
+
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress?
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint  

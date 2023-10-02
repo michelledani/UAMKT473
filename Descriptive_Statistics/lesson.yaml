@@ -1,0 +1,213 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: Descriptive Statistics
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: University of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: Welcome to your lesson on descriptive statistics. In this lesson, we'll go over using R to conduct some of the
+    analyses that I have been teaching you by hand. Specifically, in this lesson, we'll cover how to calculate frequencies,
+    modes, means, medians, and standard deviations. I'll also show you how to create a histogram.
+  
+- Class: text
+  Output: But first things first. Look into your global environment (upper right hand corner). If you remember
+    from the last lesson, this is where all of the variables you created were stored. Right now, you should see
+    something called 'dataset'. If you don't see this, reach out to me, because you will need it to complete this lesson.
+    
+- Class: text
+  Output: Dataset is what is known in R as a dataframe. It is just a .csv that we have uploaded to R so that we can analyze our date.
+    To make this lesson simpler, I included code within this course to upload all the datasets that we'll be using. However, knowing how to upload data
+    is incredibly important to learning how to analyze data. If we haven't already, we will go over this together in class. 
+    
+- Class: cmd_question
+  Output: First, let's get you oriented to the data that we have. Can you guess how many observations we have in our data?
+  CorrectAnswer: 30
+  AnswerTests: omnitest(correctExpr='30')
+  Hint: Look in your Global Environment for the word 'obs.' to help you. 
+
+- Class: cmd_question
+  Output: Great! Now can you figure out how many variables the dataset has?
+  CorrectAnswer: 3
+  AnswerTests: omnitest(correctExpr='3')
+  Hint: Look in your Global Environment for the word 'variables' to help you. 
+
+- Class: cmd_question
+  Output: So now you know that there are 30 observations, and 3 variables. In practice,
+    this would mean that 30 participants responded to 3 research questions. To see what the
+    name of the variables are, you'll want to find the column headers. 
+    
+    Try typing 'colnames(dataset)' then pressing enter. 
+  CorrectAnswer: colnames(dataset)
+  AnswerTests: omnitest(correctExpr='colnames(dataset)')
+  Hint: Just type colnames(dataset), then press enter!
+
+- Class: text
+  Output: Based on the R output above, you can see that the first column of the dataframe is labeled
+    'HairColor', the second 'PopPunk', and the third 'History'. Let's assume that the first column
+    represents participants' varying hair colors using a nominal scale. They could select the following options-
+    
+    
+    1 = Brown
+    
+    
+    2 = Blonde
+    
+    
+    3 = Red
+    
+    
+    4 = Black
+    
+    
+    5 = Gray
+    
+    
+    6 = Pink
+    
+    
+    7 = Blue
+    
+- Class: text
+  Output: Now, imagine that you want to know how many participants have blonde hair. You 
+    could find this information by using the 'count' function. We can type 'dataset %>% count(HairColor)' 
+  
+    Before you type that out though, let's break down what the code is doing. The word 'dataset' is telling
+    R that you want to work with the dataframe called 'dataset'. If our dataframe was
+    instead called 'statsarefun', the code would read 'statsarefun %>% count(HairColor).'
+    Next, the %>% is informing R that you want to move the values within dataset 
+    forward to the next function. In this case, that is the 'count' 
+    function. count() is a function that counts the number of unique responses to a variable. 
+    count(HairColor) will count the number are participants who responded '1' for Brown, '2' for Blonde,
+    and so forth. 
+  
+- Class: cmd_question
+  Output: Okay, let's try running that code now! Type 'dataset %>% count(HairColor)' into your
+    console. Remember--R is case-sensitive!
+  CorrectAnswer: dataset %>% count(HairColor)
+  AnswerTests: omnitest(correctExpr='dataset %>% count(HairColor)')
+  Hint: Just type dataset %>% count(HairColor), then press enter!
+
+- Class: text
+  Output: Great work! now, take a look at the output above. There are three columns of numbers.
+    You should primarily be concerned with the second and third columns. The second column, which is 
+    labeled 'HairColor' lists all of the responses to this question. If you scroll up, you'll be reminded
+    that each of these numbers represents a specific color. For example, 3 represents the answer 'Red'. The
+    third column, labeled 'n' lists the number of participants who responded with that answer. 
+    Remember--in statistics 'n' means the total number of people in that group. So, this table is telling us
+    that three participants (from the n column) responded that they have red hair (3 in the hair color column).
+    This table is essentially a frequency table, which we learned about during the lecture!
+    
+- Class: cmd_question
+  Output: How many participants responded that they have pink hair? Remember, 
+    I told you what each number represents above.
+  CorrectAnswer: 1
+  AnswerTests: omnitest(correctExpr='1')
+  Hint: Scroll up to see what number represents the hair color 'Pink", then
+    type the corresponding number in the 'n' column. 
+
+- Class: text
+  Output: From this data, we can also see which response is the mode. Remember,
+    the mode is the most frequently occuring response. First, you want to look at 
+    which number is the largest in the 'n' column. Then, you need to reference that 
+    to the corresponding response for 'HairColor'. In this case, 6 is the highest number.
+    That means there are multiple modes, since there are three hair colors that were each selected 6 times. 
+    Blonde (represented by 1), Brown (represented by 2), and Gray (represented by 5). 
+
+- Class: cmd_question
+  Output: Can you make a frequency table for the variable PopPunk? PopPunk
+   is an interval variable that indicates how much participants enjoy Pop Punk music (1 = Not at all, 7 = A great deal).
+   Recall that the code you used to create the frequency table for Hair Color was 'dataset %>% count(HairColor)'
+  CorrectAnswer: dataset %>% count(PopPunk)
+  AnswerTests: omnitest(correctExpr='dataset %>% count(PopPunk)')
+  Hint: Try typing 'dataset %>% count(PopPunk)' without the quotes!
+  
+- Class: cmd_question
+  Output: Based on the frequency table above, what response was the mode? 
+    Unlike haircolor, the number in the 'PopPunk' column is the actual response,
+    so your mode will be a number between 1-7. 
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctExpr='4')
+  Hint: Look for the highest number in the 'n' column, then type the corresponding
+    number from the 'PopPunk' column. It should be between 1 and 7.
+    
+- Class: cmd_question
+  Output: Now let's say you want to visualize your data in a histogram. You can create
+    a histogram by typing 'hist(dataset$HairColor)'. Before trying it out;
+    let's break down  the code. 'hist()' is telling R that you want to make a histogram.
+    'dataset' tells R what the name of your dataframe is. Next, the $ tells R that what follows
+    will be a column within the dataframe. So we are telling R to look in the dataframe named
+    'dataset', then the column HairColor. R then uses the data from this column to create a histogram.
+    
+    Go ahead, try typing hist(dataset$HairColor)
+  CorrectAnswer: hist(dataset$HairColor)
+  AnswerTests: omnitest(correctExpr='hist(dataset$HairColor)')
+  Hint: Just type 'hist(dataset$HairColor)' without the quotes!
+
+- Class: text
+  Output: Great work! Look in the lower right hand corner of the screen, and you should see your histogram! 
+    R has a lot of functions to make this histogram prettier, but for now, we'll keep it basic. 
+    
+- Class: cmd_question
+  Output: Now let's try making a histogram for PopPunk.Type your code below. 
+  CorrectAnswer: hist(dataset$PopPunk)
+  AnswerTests: omnitest(correctExpr='hist(dataset$PopPunk)')
+  Hint: Just type 'hist(dataset$PopPunk)' without the quotes!
+  
+- Class: cmd_question
+  Output: Now that you've mastered frequencies and histograms, let move
+    on to some calculations. Let's say we want to know the average (i.e., the mean)
+    level of how much participants enjoy the genre Pop Punk. Try typing
+    mean(dataset$PopPunk).
+  CorrectAnswer: mean(dataset$PopPunk)
+  AnswerTests: omnitest(correctExpr='mean(dataset$PopPunk)')
+  Hint: Just type 'mean(dataset$PopPunk)' without the quotes!
+  
+- Class: cmd_question
+  Output: What is the mean that you just calculated (type only the number)
+  CorrectAnswer: 3.8
+  AnswerTests: omnitest(correctExpr='3.8')
+  Hint: Just type the number that comes after [1].
+
+- Class: cmd_question
+  Output: Now, write the code to calculate the mean for History, which is an interval about how much participants
+    enjoy the subject of History (1 = Not at all, 7 = A great deal)
+  CorrectAnswer: mean(dataset$History)
+  AnswerTests: omnitest(correctExpr='mean(dataset$History)')
+  Hint: Just type 'mean(dataset$History)' without the quotes. 
+  
+- Class: cmd_question
+  Output: What is the mean that you just calculated for 'History' (type only the number)
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctExpr='4')
+  Hint: Just type the number that comes after [1].
+
+  
+- Class: cmd_question
+  Output: Time to move on to the median! Recall that the median is the number at the midpoint of a set of 
+    values. Go ahead and find the median of the variable History by typing median(dataset$History). THe median should
+    be equal to 4.5.
+  CorrectAnswer: median(dataset$History)
+  AnswerTests: omnitest(correctExpr='median(dataset$History)')
+  Hint: Just type 'median(dataset$History)' without the quotes. 
+  
+- Class: cmd_question
+  Output: Now, find the median for PopPunk.
+  CorrectAnswer: median(dataset$PopPunk)
+  AnswerTests: omnitest(correctExpr='median(dataset$PopPunk)')
+  Hint: Just type 'median(dataset$PopPunk)' without the quotes. 
+
+- Class: cmd_question
+  Output: What is the median that you just calculated for PopPunk (type only the number)
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctExpr='4')
+  Hint: Just type the number that comes after [1].
+
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress?
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint

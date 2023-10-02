@@ -1,0 +1,160 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: One-Sample t-Test
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: University of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: In this lesson, we will learn how to compute a one-sample t-test. Recall
+    from lecture that a one-sample t-test compares the mean of a group to some
+    expected number that we call a mu (usually the scale midpoint, but not always!).
+
+- Class: text
+  Output: But first, let's look over our data. If you look in your global environment,
+    you should see a dataset called 'onesampdata'. Double click the data to take a 
+    look, then come back to this screen. 
+    
+- Class: text
+  Output: This data is a set of computer generated ratings of a new brand of headphones, 
+    and it has four variables - product color, sound qualtity, battery life,
+    and overall rating. 
+    
+    
+    Product color is either red or blue.
+    
+    
+    SoundQual is a rating of the headphones' sound quality using a scale
+    from 1 to 7, with 1 being the lowest rating, and 7 being the highest. 
+    
+    
+    BatteryLife is a rating of the headphones' battery life, and is also on a 
+    1 to 7 scale, with 1 being the lowest rating, and 7 being the highest. 
+    
+    
+    AverageRating is the consumer's overall rating of the product on a scale
+    from 1 (terrible product) to 10 (great product). 
+    
+- Class: text
+  Output: Assume that you want to know whether participants' ratings of the
+    sound quality of the headphones differs from the scale midpoint of 4. You would
+    use the following code -   t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided").
+    
+    
+    But before you run this code, let's break it down. t.test() is a function
+    that let's R know that you want to run a t-test. 
+    
+    
+    Next, you need to tell R
+    what variable you are analyzing (in this case, SoundQual). Justlike
+    in our last lesson, the onesampdata is telling R what dataset to check, and $SoundQual
+    is telling it which column. 
+    
+    
+    Next, you need
+    to tell R what number it is comparing the mean of SoundQual against. We'll 
+    use the scale midpoint of 4 (mu = 4). 
+    
+    
+    'alternative = "two.sided'' is 
+    telling R that that you don't have a hypothesized direction, so the p-value 
+    will use a two-tailed test. This is what we'll always use in class, as 
+    it is the most conservative test. 
+    
+
+- Class: cmd_question
+  Output: Okay, now let's run the code. Try typing 
+    t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided")
+  
+  CorrectAnswer:   t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided"))
+  AnswerTests: omnitest(correctExpr='  t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided")')
+  Hint: Just type '  t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided")' without the quotes!
+
+- Class: text
+  Output: Great work! Now let's go over how to read your results. Start reading where
+    the output says 't ='. This is your t statistic. This is the same value we've learned how to calculate
+    by hand in class. 
+    
+    Next, you can see the degrees of freedom. This is the sample size (200) minus 1. 
+    
+    
+    Next, we have the p-value. This will identify whether the mean of the sound 
+    quality ratings
+    differs significantly from the scale midpoint. If the number is less than .05, 
+    it means we have found support for the alternative hypothesis, and the result 
+    differs significantly from your mu (the scale midpoint). 
+    
+    If the p-value is     greater than .05, we fail to reject the null, and the mean 
+    does NOT differ from the mu.
+    
+    
+    In this case, .009909 IS less than .05, so the
+    mean does differ significantly from the scale midpoint of 4. We have support
+    for the alternative hypothesis, and we can reject the null. 
+    
+    One neat thing R does for one-sample t-tests, is that it provides you with 
+    the alternative hypothesis. You can see that it tells you the alternative
+    hypothesis is 'true mean is not equal to 4'.
+    
+    Finally, this test will also give you the mean of your sample. Here, the mean
+    response to Sound Quality is 4.395. 
+    
+- Class: cmd_question
+  Output: One thing this code does not provide is the standard deviation. You can
+    find this by using the code we learned in the descriptive statistics lecture.
+    Go ahead and type sd(onesampdata$SoundQual).
+  
+  CorrectAnswer:   sd(onesampdata$SoundQual)
+  AnswerTests: omnitest(correctExpr='sd(onesampdata$SoundQual)')
+  Hint: Just type 'sd(onesampdata$SoundQual)' without the quotes!
+
+- Class: text
+  Output: Awesome! Now, if we wanted to report our findings, we could report the below
+  
+  
+    "Based on a one-sample t-test, the mean rating of Sound Quality differs
+    significantly from the scale midpoint of  (M = 4.40, SD = 2.15; t(199)=2.60,
+    p = . 01), therefore, we reject the null hypothesis."
+    
+    Notice that I rounded to two decimal places. Two or three decimal points is standard.
+- Class: cmd_question
+  Output: Okay, now it's your turn. Can you calculate whether the mean rating of
+    BatteryLife differs from the scale midpoint of 4, using a two-tailed test?
+  
+  CorrectAnswer:   t.test(onesampdata$SoundQual, mu = 4, alternative = "two.sided")
+  AnswerTests: omnitest(correctExpr='t.test(onesampdata$BatteryLife, mu = 4, alternative = "two.sided")')
+  Hint: Just type 't.test(onesampdata$BatteryLife, mu = 4, alternative = "two.sided")' without the quotes!
+
+- Class: cmd_question
+  Output: Now, based on your output, what is the mean of BatteryLife? Do not round
+    the number. 
+  
+  CorrectAnswer: 3.78
+  AnswerTests: omnitest(correctExpr='3.78')
+  Hint: Look at the number below 'mean of x'
+  
+- Class: mult_question
+  Output: Is the mean significantly different from the scale midpoint of 4?
+    Type either 1 on 2 to select an answer. 
+  AnswerChoices: Yes;No
+  CorrectAnswer: No
+  AnswerTests: omnitest(correctVal='No')
+  Hint: Remember, the mean significantly differs from the scale midpoint
+    if the p-value is less than .05. 
+
+- Class: mult_question
+  Output: Based on this p-value, to we reject the null, or fail to reject the null?
+  AnswerChoices: Reject the null; Fail to reject
+  CorrectAnswer: Fail to reject
+  AnswerTests: omnitest(correctVal='Fail to reject')
+  Hint: If we can't say that the mean differs significantly from the midpoint,
+    we cannot reject the null hypothesis.
+    
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress?
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint

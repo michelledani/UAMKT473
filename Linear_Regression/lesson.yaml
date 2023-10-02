@@ -1,0 +1,163 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: Linear Regression
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: University of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: Welcome to your final swirl lesson! In this lesson, we'll
+    be learning about how to conduct a basic linear regression.
+    
+    The great news, is that this is probably one of the simplest 
+    analyses we've done yet.
+    
+- Class: text
+  Output: As we talked about during our lecture, a regression is really
+    just a more nuanced method of calculating the slope of a line so that
+    we can make predictions.
+    
+- Class: text
+  Output: We'll be using new data for this lesson. This data contains computer
+    generated data about information from students' test results. The data 
+    contains the following three variables
+    
+    
+    studytime - a ratio variable listing the number of minutes the student 
+    studied for their exam.
+    
+    
+    testtime - a ratio variable about
+      the time it took the student to complete their test (max 75 minutes)
+    
+    
+    grade - a ratio variable with the student's grade out of 100. 
+    
+    
+- Class: cmd_question
+  Output: Let's get analyzing! We'll start with a really basic prediction.
+    Let's assume you want to see if you can predict a student's grade 
+    based on the number of minutes they studied. You could test the following
+    model
+    
+    
+    lm(grade~studytime, data=regdata)
+    
+    
+    lm() is telling R that you want to run a linear model. Just like with
+    our other analyses, the first variable (grade) is our dependent variable,
+    and the second variable (studytime) is our independent variable. 
+    data=regdata is telling R which dataset to use!
+    
+    
+    Go ahead, and type lm(grade~studytime, data=regdata)
+    
+  CorrectAnswer: lm(grade~studytime, data=regdata)
+  AnswerTests: omnitest(correctExpr='lm(grade~studytime, data=regdata)')
+  Hint: Just type 'lm(grade~studytime, data=regdata)' without the quotes!
+    
+- Class: text
+  Output: This model gives you really basic output. What we know is the
+    coefficient for our predictor (studytime) is .25 (rounded), and our
+    intercept is 60.14. This means, if we wanted to predict a student's
+    grade based on their study time, we could use the following equation
+    
+    .25(studytime) + 60.14 = grade
+
+- Class: text
+  Output: Now, we can subsitute in a student's planned study time, and predict
+    what their grade will be. 
+    
+    
+    For example, let's imagine a student plans to study for 30 minutes. We would 
+    subsitute 30 for 'studytime' and solve the equation.
+    
+    .25(30) + 60.14 = 67.64
+    
+- Class: text
+  Output: Therefore, based on our regression equation, we would predict 
+    that a student who studies for 30 minutes will get about 
+    a 68/100 on their exam. 
+  
+- Class: cmd_question
+  Output: The problem is that we still don't know if this model is statistically
+    significant with the information we have. If it's not significant, 
+    there really isn't a meaningful relationship between study time and 
+    the student's grade. To get this information, we need to include
+    a summary() function in our code.
+    
+    
+    Go ahead, and type summary(lm(grade~studytime, data=regdata))
+    
+  CorrectAnswer: summary(lm(grade~studytime, data=regdata))
+  AnswerTests: omnitest(correctExpr='summary(lm(grade~studytime, data=regdata))')
+  Hint: Just type 'summary(lm(grade~studytime, data=regdata))' without the quotes!
+
+- Class: mult_question
+  Output: Based on the additional information you can now see, is this
+    there a statistically significant relationship between study time and 
+    a student's grade?
+  AnswerChoices: Yes;No
+  CorrectAnswer: Yes
+  AnswerTests: omnitest(correctVal='Yes')
+  Hint: Remember, if a p-value is smaller than .05, our result is statistically
+    significant. 
+    
+- Class: text
+  Output: The nice thing about using summary() is that it gives you 
+    all the information you need to both create the equation and determine 
+    if the equation is statistically significant. 
+    
+    
+    It requires you to read a bit more closely, but if you look under the
+    'estimate' column, we can still see the values for our intercept (60.14)
+    and the coefficient for our predictor variable (studytime = .25)
+    
+- Class: cmd_question
+  Output: Can you create a linear model that predicts a student's grade
+    using the variable 'testtime'? Go ahead and use summary() right away!
+
+  CorrectAnswer: summary(lm(grade~testtime, data=regdata))
+  AnswerTests: omnitest(correctExpr='summary(lm(grade~testtime, data=regdata))')
+  Hint: Just type 'summary(lm(grade~testtime, data=regdata))' without the quotes!
+  
+- Class: mult_question
+  Output: Is the amount of time a student takes to finish the test a significant
+    predictor of the student's grade?
+  AnswerChoices: Yes;No
+  CorrectAnswer: Yes
+  AnswerTests: omnitest(correctVal='Yes')
+  Hint: Remember, if a p-value is smaller than .05, our result is statistically
+    significant. 
+    
+- Class: mult_question
+  Output: Which of the following equations is correct based on your model?
+  AnswerChoices: .09(testtime) + 77.52 = grade; .77.52(testtime) + .09 = grade; .09(grade) + 77.52 = testtime;
+  CorrectAnswer: .09(testtime) + 77.52 = grade
+  AnswerTests: omnitest(correctVal='.09(testtime) + 77.52 = grade')
+  Hint: Remember, the intercept isn't multiplied by anything, but the
+    coefficient needs to be multiplied by the amount of time to student
+    takes on the test. 
+    
+- Class: mult_question
+  Output: Finally, based on these result, if a student took 45 minutes on 
+    to complete their test, what would we predict their grade would be?
+  AnswerChoices: 100; 95.67; 81.57; 77.52
+  CorrectAnswer: 81.57
+  AnswerTests: omnitest(correctVal='81.57')
+  Hint: You need to complete the following equation for your answer
+    .09(45) + 77.52 = grade
+
+- Class: text
+  Output: Congratulations, you are now done with all of your swirl lessons!
+    You are more than welcome to run through these lessons multiple times, or
+    to reference them when you complete the R output quiz!
+    
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress?
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint 

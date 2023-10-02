@@ -1,0 +1,107 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: Introduction
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: University of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: Welcome to your first swirl course! These lessons are designed to help 
+    you better understand R. Over the next few weeks, we are going to be 
+    covering a lot of analyses in class. You will learn how to do several of 
+    these analyses by hand (I know, I'm sorry! I promise it helps you understand how to
+    understand your results better). Then, I'll show you how to do them quickly
+    in R! The purpose of these lessons is to familiarize you with the R interface.
+  
+    This introduction lesson is designed to help you understand how to use the
+    swirl interface, and get a VERY small introduction to using R. 
+  
+- Class: text
+  Output: First things first. The area that you are reading right now is called
+    the console. It's primarily what you will be working in for swirl. It is also
+    where you will type most of your answers to swirl questions. However, as we'll
+    go over in class--when you really start working with R, you'll want to keep
+    all of your syntax (what you'll be writing, I also sometimes call it code) 
+    in a script that you can save. 
+    More on that later!
+  
+- Class: text
+  Output: If you are typing in the console, you can run your code just by
+    pressing enter! Base R has a lot of functions that help you complete simple
+    analyses. 
+  
+- Class: cmd_question
+  Output: For example, let's do some addition.
+    Add 2 and 2 together using the addition operator. Then hit enter!
+  CorrectAnswer: 2 + 2
+  AnswerTests: omnitest(correctExpr='2 + 2')
+  Hint: Just type 2 + 2.
+
+- Class: text
+  Output: Notice that R gives you the answer (4) right below where you typed 
+    '2 + 2'. This is how your output will show up in the console. You don't
+    have to put spaces between the numbers and the operator, but it is how code
+    is commonly typed. 
+
+- Class: text
+  Output: Now, I want to teach you about the <- operator. You can think about
+    this operator as an equals sign. It's just a less than sign and a hyphen
+    typed without a space. 
+    
+    Let's say that I wanted to set the answer to an equation as a new
+    variable that I can use in other equations later. This operator helps you do that. 
+    
+- Class: cmd_question
+  Output: For example, try typing x <- 2 + 2
+  CorrectAnswer: x <- 2 + 2
+  AnswerTests: omnitest(correctExpr='x <- 2 + 2')
+  Hint: Just type x <- 2 + 2. 
+  
+- Class: cmd_question
+  Output: Now, just type 'x' without the quotes and press enter
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: Just type 'x' and press enter! 
+  
+- Class: text
+  Output: Notice how after you typed x and hit enter, the console returned the 
+    '[1] 4'. For now, you do not need to pay attention to the bracketed number, 
+    that is just the line number for the line you are reading.
+    But the '4' is what 'x' currently represents, because you set x to be equal
+    to 2 + 2!
+
+- Class: cmd_question
+  Output: Now, you can use x in equations if you want. Try typing x * 4 and then
+    pressing enter. 
+  CorrectAnswer: x * 4
+  AnswerTests: omnitest(correctExpr='x * 4')
+  Hint: Just type 'x * 4' without the quotes and press enter! 
+
+- Class: text
+  Output: Congratulations! You just created your first variable! When you are 
+    analyzing data, variables help you save information to speed up your analyses.
+    Later on, you'll use variables to run more complex analyses. 
+    
+- Class: text
+  Output: Now, I want you to notice one more thing. If you look in the upper
+    right section of your screen, you should see something that says 'Values'.
+    This section is called your environment, and it helps keep track of all
+    the variables you create (plus a lot more--but right now we're just
+    focused on the variables)
+    
+- Class: cmd_question
+  Output: Let's create another variable so you can see how it shows up in your
+    environment. Type newvar <- 10 - 3. When you hit enter, you should see it 
+    appear in the same box. 
+  CorrectAnswer: newvar <- 10 - 3
+  AnswerTests: omnitest(correctExpr='newvar <- 10 - 3')
+  Hint: Just type 'newvar <- 10 - 3' without the quotes and press enter! 
+  
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress? You must complete this form for credit.
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint

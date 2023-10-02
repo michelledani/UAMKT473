@@ -1,0 +1,6 @@
+ggplot2
+tidyverse
+broom
+AICcmodavg
+base64enc
+stringi

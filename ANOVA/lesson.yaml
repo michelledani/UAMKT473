@@ -1,0 +1,339 @@
+- Class: meta
+  Course: UA MKT473
+  Lesson: ANOVA
+  Author: Dr. Michelle Daniels
+  Type: Standard
+  Organization: Univeristy of Alabama
+  Version: 2.4.5
+
+- Class: text
+  Output: In this lesson, we'll learn how to calculate an ANOVA. As 
+    discussed in class, an ANOVA is
+    used to analyze whether there is a difference in mean ratings between
+    two or more groups. 
+    
+- Class: text
+  Output: Although ANOVAs build off of a t-test, they are a little bit more
+    complicated to run in R. But that's okay--we can handle it!
+    
+- Class: text
+  Output: First, let's go over our data. This is a computer generated dataset
+    comparing three universities--Alabama, Auburn, and Arizona State. Right now,
+    it has 4 variables. 
+    
+    
+    University identifies the university each rating was taken for taken about. 
+    
+    
+    Football is a rating of how good that university's football team is 
+    using a 1-7 scale (1 = terrible, 7 = amazing).
+    
+    
+    Education is a rating of how good that university's educational
+    program team is using a 1-7 scale (1 = terrible, 7 = amazing).
+    
+    
+    Mascot is a rating of how much participants like 
+    that university's mascot on a 1-7 scale (1 = Do not like at all, 7 = Love).
+    
+- Class: cmd_question
+  Output: Now, one reason that ANOVAs are a little more complicated is that
+    the independent variable needs to be what R considers a 'factor'. 
+    A factor is a type of variable that has specific levels that we can compare
+    against each other. 
+    
+    
+    The problem with this is that typically, when we read data in to R, if the 
+    data uses characters, it's read in as character variable. So the first step
+    of conducting an ANOVA is to make sure that your independent variable is 
+    classified as a factor. For this lesson, we want the university to be our 
+    independent variable. 
+    
+    
+    To see how R has classified the variable University, 
+    type class(anovadata$University).
+    
+  CorrectAnswer: class(anovadata$University)
+  AnswerTests: omnitest(correctExpr='class(anovadata$University)')
+  Hint: Just type 'class(anovadata$University)' without the quotes!
+
+- Class: text
+  Output: As you can see, right now our independent variable is classified
+    as a character. The good news is that we can easily fix this by creating
+    a new variable that changes the class of University from a character
+    to a factor. 
+    
+- Class: cmd_question
+  Output: Remember when we learned how to make a variable in the introduction 
+    lesson? Well, we're going to put that to use now! We're going to create a 
+    new variable called NewUniversity, that contains the same information as
+    our current University variable, but turns it into a factor. 
+    
+    
+    The code to do this is 
+    anovadata$NewUniversity <- as.factor(anovadata$University). This code 
+    tells R to create a new column in our dataset (anovadata) and to
+    call this new variable NewUniversity. Then,
+    we're telling R that this new variable will be the same as the University
+    variable, but as a factor, instead of a character. 
+    
+    
+    Go ahead and try the code now! 
+    Type anovadata$NewUniversity <- as.factor(anovadata$University)
+    
+  CorrectAnswer: anovadata$NewUniversity <- as.factor(anovadata$University)
+  AnswerTests: omnitest(correctExpr='anovadata$NewUniversity <- as.factor(anovadata$University)')
+  Hint: Just type 'anovadata$NewUniversity <- as.factor(anovadata$University)' 
+    without the quotes!
+  
+- Class: cmd_question
+  Output: Now we can double-check that we correctly created a factor variable.
+    type class(anovadata$NewUniversity)
+    
+  CorrectAnswer: class(anovadata$NewUniversity)
+  AnswerTests: omnitest(correctExpr='class(anovadata$NewUniversity)')
+  Hint: Just type 'class(anovadata$NewUniversity)' without the quotes!
+  
+- Class: text
+  Output: Great! Now that our independent variable is a factor, we can start 
+    analyzing!
+    
+- Class: cmd_question
+  Output: Let's start by running a basic ANOVA to see if ratings of the 
+    schools' football teams differ across the three universities. 
+    To test this, you'll type 
+    summary(aov(Football ~ NewUniversity, data = anovadata))
+    
+    Let's go over this code. 
+    
+    
+    aov() is a function telling R that you are running
+    an ANOVA. Then, you need to tell R what variables you're interested in,
+    just like a t-test. In this example, we're also going to specify
+    the dataset in the model, so that we don't have to keep typing 
+    anovadata. we do this with the 'data =' statement. 
+    
+    
+    One final note is that, unlike a t-test, if you were to just run 
+    the code aov(Football ~ NewUniversity, data=anovadata),
+    the output wouldn't tell you if there was a signicant result. 
+    that's what summary() is for. It provides more details about your analysis
+    than the basic code. 
+    
+    Okay, let's try it out! 
+    Type summary(aov(Football ~ NewUniversity, data=anovadata))
+    
+  CorrectAnswer: summary(aov(Football ~ NewUniversity, data=anovadata))
+  AnswerTests: omnitest(correctExpr='summary(aov(Football ~ NewUniversity, data=anovadata))')
+  Hint: Just type 'summary(aov(Football ~ NewUniversity, data=anovadata))' without the quotes!
+  
+
+- Class: text
+  Output: Now, looking at the output, we can tell from the p-value
+    there is a significant effect of the university on ratings of the school's
+    football teams. However, what we can't tell is which schools differ.
+    
+    
+    Let's imagine that we want to see whether Auburn and Arizona State differ 
+    from Alabama. We'd need to create a contrast to test Alabama vs. Auburn
+    and Alabama vs. Arizona State. Remember from lecture, a contrast is
+    simply a comparizon between the groups.
+    
+- Class: text
+  Output: When you're creating a contrast, the first thing to consider is the
+    order that R has each level of the factor listed. Typically, this will
+    default to alphabetical order. So, the order for our levels would be
+    Alabama, ArizonaState, Auburn. 
+    
+    This order is important, because it tells you how you need to create your 
+    matrix. 
+    
+- Class: text
+  Output: As we discussed in class, when you're looking at contrasts,
+    you need to assign numbers to each level inside a matrix. Then,
+    all of the levels need to equal 0 when you add them together. 
+    
+    
+    So, for example, if we wanted to compare Alabama to Auburn, we could assign
+    the values (1, 0, -1). Keep in mind our alphabetical ordering. What these
+    numbers indicate is that we want to compare Alabama (the first group) to 
+    Auburn (the third group) and to ignore Arizona State (the middle group).
+    
+- Class: text
+  Output: Conversely, if we want to compare Alabama to ArizonaState, our contrast
+    would use the following numbering - (1, -1, 0). Alabama and ArizonaState
+    have opposite values (1, -1), and Auburn is being ignored (0)
+    
+    
+- Class: cmd_question
+  Output: Let's make our first contrast by making a new variable, 
+    AlabamaVsAuburn. 
+    
+    
+    Go ahead and type the code below.
+    AlabamaVsAuburn <- c(-1, 0, 1)
+    
+    
+  CorrectAnswer: AlabamaVsAuburn <- c(-1, 0, 1)
+  AnswerTests: omnitest(correctExpr='AlabamaVsAuburn <- c(-1, 0, 1)')
+  Hint: Just type 'AlabamaVsAuburn <- c(-1, 0, 1)' without the quotes!  
+  
+- Class: cmd_question
+  Output: If you look in your global environment, you can see our new 
+    contrast listed. Let's make our second contrast comparing Alabama to 
+    ArizonaState
+  
+  
+    Go ahead and type the code below.
+    AlabamaVsArizonaSt <- c(1, -1, 0)
+    
+    
+  CorrectAnswer: AlabamaVsArizonaSt <- c(1, -1, 0)
+  AnswerTests: omnitest(correctExpr='AlabamaVsArizonaSt <- c(1, -1, 0)')
+  Hint: Just type 'AlabamaVsArizonaSt <- c(1, -1, 0)' without the quotes!
+
+  
+- Class: cmd_question
+  Output: Now, we want R to combine the two contrasts we made into a single
+    matrix, so that when we run our ANOVA, we get both contrasts. To do 
+    that you can type the code below, which is assigning our contrasts
+    to our indepedent variable. Luckily, this is the last step in assigning
+    contrasts, and we only have to do it once!
+    
+    contrasts(anovadata$NewUniversity) <- cbind(AlabamaVsAuburn, AlabamaVsArizonaSt)
+    
+    
+  CorrectAnswer: contrasts(anovadata$NewUniversity) <- cbind(AlabamaVsAuburn, AlabamaVsArizonaSt)
+  AnswerTests: omnitest(correctExpr='contrasts(anovadata$NewUniversity) <- cbind(AlabamaVsAuburn, AlabamaVsArizonaSt)')
+  Hint: Just type 'contrasts(anovadata$NewUniversity) <- cbind(AlabamaVsAuburn, AlabamaVsArizonaSt)' without the quotes!
+  
+- Class: cmd_question
+  Output: Now, to see if the individual contrasts are significant, 
+    we'll want to first save the contents of our original analysis into
+    a new variable. Let's call it aovFootball.
+    
+    
+    Type aovFootball <- aov(Football~NewUniversity, data = anovadata)
+    
+    
+    
+  CorrectAnswer: aovFootball <- aov(Football~NewUniversity, data = anovadata)
+  AnswerTests: omnitest(correctExpr='aovFootball <- aov(Football~NewUniversity, data = anovadata)')
+  Hint: Just type 'aovFootball <- aov(Football~NewUniversity, data = anovadata)' without the quotes!
+   
+- Class: text
+  Output: Now, we can run the code below to see whether the comparisons between
+    Alabama and Auburn, and Alabama and Arizona State are significant.
+    
+    
+    The code to do this is 
+    
+    summary.aov(aovFootball, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))
+    
+    
+    summary.aov tells R how we want our data to be summarized. This function
+    works better for contrasts than summary(). 
+    
+    
+    Next, aovFootball tells R to use the model we've already saved, so that
+    we don't need to retype it. 
+    
+    
+    split=list divides your data into groups, based on the contrasts we created
+    for our variable NewUniversity. The second list = allows us to name our
+    contrasts. 
+
+  
+- Class: cmd_question
+  Output: Let's try running the code now. Type
+  
+    
+    summary.aov(aovFootball, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))
+   
+  CorrectAnswer: summary.aov(aovFootball, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))
+  AnswerTests: omnitest(correctExpr='summary.aov(aovFootball, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))')
+  Hint: Just type 'summary.aov(aovFootball, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))' without the quotes!
+  
+
+- Class: cmd_question
+  Output: Based on this output, we can see that there IS a significant 
+   difference between how good participants think Alabama football is 
+   compared to Aurburn, and compared to Arizona State. But, we are 
+   missing the means! To get the means by group, we're going
+   to use tapply, which we used in our two-sample t-test lesson. 
+   
+   
+   Go ahead and type the code below.
+   
+   
+   tapply(anovadata$Football, anovadata$NewUniversity,mean, na.rm=TRUE)
+  
+   
+  CorrectAnswer: tapply(anovadata$Football, anovadata$NewUniversity,mean, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='tapply(anovadata$Football, anovadata$NewUniversity,mean, na.rm=TRUE)')
+  Hint: Just type 'tapply(anovadata$Football, anovadata$NewUniversity,mean, na.rm=TRUE)' without the quotes!
+  
+- Class: text
+  Output: Now we know that participants gave Alabama a rating of 5.35, 
+    Arizona State a rating of 2.75, and Auburn a rating of 4.00,
+    we can confidently say that participants think Alabama is better at
+    football than either Auburn, or Arizona State. 
+    
+- Class: cmd_question
+  Output: Let's run a second ANOVA just to make sure you've got the hang of it.
+    We'll see if there is a significant difference in how much people like
+    Alabama's mascot compared to Auburn or Arizona State. 
+    
+    
+    This time, we don't need to redo the contrasts, because we've already set
+    them. Let's start first with saving our basic model. Type the code below
+    
+    
+    aovMascot <- aov(Mascot~NewUniversity, data=anovadata)
+    
+  CorrectAnswer: aovMascot <- aov(Mascot~NewUniversity, data=anovadata)
+  AnswerTests: omnitest(correctExpr='aovMascot <- aov(Mascot~NewUniversity, data=anovadata)')
+  Hint: Just type 'aovMascot <- aov(Mascot~NewUniversity, data=anovadata)' without the quotes!
+  
+- Class: cmd_question
+  Output: Now let's use the summary.aov function to get our results! The only
+    thing we need to change in the code we used for the Football ANOVA is our 
+    model. Type the code below!
+  
+    
+    summary.aov(aovMascot, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))
+   
+  CorrectAnswer: summary.aov(aovMascot, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))
+  AnswerTests: omnitest(correctExpr='summary.aov(aovMascot, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))')
+  Hint: Just type 'summary.aov(aovMascot, split=list(NewUniversity=list("Alabama vs. Auburn"=1, "Alabama vs. Arizona State" = 2)))' without the quotes!
+
+
+- Class: cmd_question
+  Output: Just like with our last ANOVA, we can see that there is a significant
+    difference between both Alabama and Auburn and Alabama and Arizona State.
+    
+    
+    But, we need to look at the means to tell which group they preferred!
+    Can you find the means for the three groups?
+
+   
+  CorrectAnswer:  tapply(anovadata$Mascot, anovadata$NewUniversity,mean, na.rm=TRUE)
+  AnswerTests: omnitest(correctExpr='tapply(anovadata$Mascot, anovadata$NewUniversity,mean, na.rm=TRUE)')
+  Hint: Just type 'tapply(anovadata$Mascot, anovadata$NewUniversity,mean, na.rm=TRUE)' without the quotes!
+  
+- Class: text
+  Output: By looking at the means, we can tell that participants prefer
+    Alabama's mascot to Auburn's (4.025 vs. 2.600), but they prefer Arizona
+    State's mascot more than Alabama's (5.325 vs. 4.025)!   
+    
+- Class: text
+  Output: That's all for this lesson! I know this one was a lot, so great job
+    making it to the end!
+    
+- Class: mult_question
+  Output: Would you like to submit the log of this lesson to Google Forms so
+    that your instructor may evaluate your progress?
+  AnswerChoices: Yes;No
+  CorrectAnswer: NULL
+  AnswerTests: submit_log()
+  Hint: hint  
