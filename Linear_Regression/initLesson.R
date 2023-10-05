@@ -4,7 +4,7 @@
   )
 }
 
-regdata <- read.csv(file.path(.get_course_path(), "UA_MKT473", "Linear_Regression", "regdata.csv"))
+regdata <- read.csv(file.path(.get_course_path(), "UAMKT473", "Linear_Regression", "regdata.csv"))
 
 
 swirl_options(swirl_logging = TRUE)# Code placed in this file fill be executed every time the
