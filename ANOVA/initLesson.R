@@ -4,7 +4,7 @@
   )
 }
 
-anovadata <- read.csv(file.path(.get_course_path(), "UA_MKT473", "ANOVA", "anovadata.csv"))
+anovadata <- read.csv(file.path(.get_course_path(), "UAMKT473", "ANOVA", "anovadata.csv"))
 
 
 swirl_options(swirl_logging = TRUE)
