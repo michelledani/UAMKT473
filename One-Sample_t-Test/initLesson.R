@@ -9,6 +9,6 @@
   )
 }
 
-onesampdata <- read.csv(file.path(.get_course_path(), "UA_MKT473", "One-Sample_t-Test", "onesampdata.csv"))
+onesampdata <- read.csv(file.path(.get_course_path(), "UAMKT473", "One-Sample_t-Test", "onesampdata.csv"))
 
 swirl_options(swirl_logging = TRUE)
