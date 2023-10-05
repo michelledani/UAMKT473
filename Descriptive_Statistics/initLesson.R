@@ -9,6 +9,6 @@
   )
 }
 
-dataset <- read.csv(file.path(.get_course_path(), "UA_MKT473", "Descriptive_Statistics", "datafun.csv"))
+dataset <- read.csv(file.path(.get_course_path(), "UAMKT473", "Descriptive_Statistics", "datafun.csv"))
 
 swirl_options(swirl_logging = TRUE)
